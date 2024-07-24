@@ -1,15 +1,12 @@
 package com.example.atc.domain.plogging.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class PloggingRepo {
+public class Plogging {
 
 
         @Id
@@ -19,5 +16,7 @@ public class PloggingRepo {
         private int authenticationTime;
         private String location;
         private int distance;
-
+        @OneToOne
+        @JoinColumn(name = "picture_id",unique = true)
+        private PloggingPicture ploggingPicture;
 }
