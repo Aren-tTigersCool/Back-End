@@ -1,9 +1,9 @@
 package com.example.atc.domain.plogging.controller;
 
 import com.example.atc.domain.plogging.entity.Plogging;
+import com.example.atc.domain.plogging.entity.PloggingPicture;
 import com.example.atc.domain.plogging.service.PloggingService;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,7 +31,7 @@ public class PloggingController {
     @Operation(summary = "게시물 수정", description = "게시물을 수정합니다.")
     @PutMapping("/{recordId}")
     public void updatePost(@PathVariable Long recordId, @RequestBody Plogging ploggingDetails) {
-        ploggingService.upadatePlogging(recordId, ploggingDetails);
+        ploggingService.updatePlogging(recordId, ploggingDetails);
     }
 
     @Operation(summary = "플로깅 인증 내역 삭제", description = "recordID를 통해 게시물을 삭제합니다.")
@@ -42,9 +42,9 @@ public class PloggingController {
 
     @Operation(summary = "플로깅 사진 업로드", description = "플로깅 사진을 업로드합니다.")
     @PostMapping("/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile file) {
+    public PloggingPicture uploadFile(@RequestParam("file") MultipartFile file) {
         try {
-            return ploggingService.uploadFile(file);
+            return ploggingService.savePicture(file);
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("파일 업로드 중 오류가 발생했습니다.");
