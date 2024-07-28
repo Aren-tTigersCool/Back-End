@@ -7,4 +7,5 @@ import java.time.LocalDate;
 @Data
 public class PointRecordDto {
     private int addSubPoint;
+    private Long userId;
 }
