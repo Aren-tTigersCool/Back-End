@@ -1,11 +1,14 @@
 package com.example.atc.domain.plogging.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 @Entity
-@Getter
-@Setter
+@Data
 public class Plogging {
 
 
@@ -16,7 +19,18 @@ public class Plogging {
         private int authenticationTime;
         private String location;
         private int distance;
-        @OneToOne
-        @JoinColumn(name = "picture_id",unique = true)
+
+        @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+        @JoinColumn(name = "picture_id", unique = true)
+        @JsonManagedReference
         private PloggingPicture ploggingPicture;
+
+        @Builder
+        public Plogging(int timeTaken, int authenticationTime, String location, int distance, PloggingPicture ploggingPicture) {
+                this.timeTaken = timeTaken;
+                this.authenticationTime = authenticationTime;
+                this.location = location;
+                this.distance = distance;
+                this.ploggingPicture = ploggingPicture;
+        }
 }
