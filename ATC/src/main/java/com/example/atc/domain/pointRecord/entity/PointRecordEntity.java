@@ -15,13 +15,13 @@ public class PointRecordEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userRecordId;
 
-    @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "profilePicId", nullable = false)
-    private ProfilePicture profilePicture;
+//    @ManyToOne
+//    @JoinColumn(name = "userId", nullable = false)
+//    private User user;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "profilePicId", nullable = false)
+//    private ProfilePicture profilePicture;
 
     private int addSubPoint;
 
