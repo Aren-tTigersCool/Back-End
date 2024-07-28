@@ -1,38 +1,39 @@
 package com.example.atc.domain.pointRecord.controller;
 
-import com.example.atc.domain.pointRecord.entity.PointRecordEntity;
+import com.example.atc.domain.pointRecord.dto.PointRecordDto;
+import com.example.atc.domain.pointRecord.entity.PointRecord;
 import com.example.atc.domain.pointRecord.service.PointRecordService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/point-records")
 public class PointRecordController {
 
-    @Autowired
-    private PointRecordService pointRecordService;
+    private final PointRecordService pointRecordService;
+
+    @PostMapping
+    public ResponseEntity<?> createPointRecord(@RequestBody PointRecordDto dto) {
+        return pointRecordService.savePointRecord(dto);
+    }
 
     @GetMapping
-    public List<PointRecordEntity> getAllPointRecords() {
+    public List<PointRecord> getAllPointRecords() {
         return pointRecordService.getAllPointRecords();
     }
 
     @GetMapping("/{id}")
-    public PointRecordEntity getPointRecordById(@PathVariable Long id) {
+    public PointRecord getPointRecordById(@PathVariable Long id) {
         return pointRecordService.getPointRecordById(id);
     }
 
-    @PostMapping
-    public PointRecordEntity createPointRecord(@RequestBody PointRecordEntity pointRecord) {
-        return pointRecordService.savePointRecord(pointRecord);
-    }
-
     @PutMapping("/{id}")
-    public PointRecordEntity updatePointRecord(@PathVariable Long id, @RequestBody PointRecordEntity pointRecord) {
-        pointRecord.setUserRecordId(id);
-        return pointRecordService.savePointRecord(pointRecord);
+    public ResponseEntity<?> updatePointRecord(@PathVariable Long id, @RequestBody PointRecordDto dto) {
+        return pointRecordService.updatePointRecord(id, dto);
     }
 
     @DeleteMapping("/{id}")
