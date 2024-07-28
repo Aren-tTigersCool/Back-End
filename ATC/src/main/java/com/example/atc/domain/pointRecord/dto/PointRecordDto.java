@@ -1,4 +1,4 @@
 package com.example.atc.domain.pointRecord.dto;
 
-public class one {
+public class PointRecordDto {
 }
