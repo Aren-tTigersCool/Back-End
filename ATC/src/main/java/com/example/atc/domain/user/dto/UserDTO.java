@@ -9,5 +9,4 @@ public class UserDTO
     private String nickName;
     private Double height, weight, calSum, carSum;
     private int totalPoint;
-
 }

@@ -24,7 +24,7 @@ public class PloggingController {
 
     @Operation(summary = "플로깅 인증 내역 생성", description = "플로깅 인증 내역을 생성합니다.")
     @PostMapping
-    public Plogging createPost(@RequestBody Plogging plogging) {
+    public Plogging createPost3(@RequestBody Plogging plogging) {
         return ploggingService.createPlogging(plogging);
     }
 
