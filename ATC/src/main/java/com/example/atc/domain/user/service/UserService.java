@@ -21,6 +21,7 @@ public class UserService {
 
     public ResponseEntity<?> createUser(UserDTO userDTO) {
         User user = new User();
+
         User changedUser = this.setEntityData(userDTO, user);
         return ResponseEntity.status(HttpStatus.OK).body(userRepository.save(changedUser));
     }
@@ -57,16 +58,17 @@ public class UserService {
     }
 
     private User setEntityData(UserDTO userDTO, User user) {
+        user.setUserId(userDTO.getUserId());  // 카카오 ID를 그대로 사용
         user.setUserPw(userDTO.getUserPw());
         user.setCategoryId(userDTO.getCategoryId());
         user.setProfilePicId(userDTO.getProfilePicId());
-        user.setNickName(userDTO.getNickName());
+        user.setNickName(userDTO.getKakaoAccount().getProfile().getNickname());
         user.setHeight(userDTO.getHeight());
         user.setWeight(userDTO.getWeight());
         user.setCalSum(userDTO.getCalSum());
         user.setCarSum(userDTO.getCarSum());
         user.setTotalPoint(userDTO.getTotalPoint());
+        user.setEmail(userDTO.getKakaoAccount().getEmail());
         return user;
     }
 }
-
