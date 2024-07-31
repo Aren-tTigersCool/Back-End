@@ -37,9 +37,9 @@ public class PloggingController {
     }
 
     @Operation(summary = "플로깅 인증 내역 삭제", description = "recordID를 통해 게시물을 삭제합니다.")
-    @DeleteMapping("/{recodrId}")
-    public void deletePlogging(@PathVariable Long recodrId) {
-        ploggingService.deletePlogging(recodrId);
+    @DeleteMapping("/{recordId}")
+    public void deletePlogging(@PathVariable Long recordId) {
+        ploggingService.deletePlogging(recordId);
     }
 
 //    @Operation(summary = "플로깅 사진 업로드", description = "플로깅 사진을 업로드합니다.")
