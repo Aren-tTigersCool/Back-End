@@ -28,8 +28,12 @@ public class PointRecordService {
         return pointRecordRepository.findAll();
     }
 
-    public PointRecord getPointRecordById(Long id) {
-        return pointRecordRepository.findById(id).orElse(null);
+    public ResponseEntity<?> getPointRecordById(Long id) {
+        Optional<PointRecord> pointRecord = pointRecordRepository.findById(id);
+        if (pointRecord.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("PointRecord not found with id " + id);
+        }
+        return ResponseEntity.ok(pointRecord.get());
     }
 
     public ResponseEntity<?> savePointRecord(PointRecordDto dto) {
@@ -52,7 +56,12 @@ public class PointRecordService {
         return ResponseEntity.status(HttpStatus.OK).body(pointRecordRepository.save(pointRecord));
     }
 
-    public void deletePointRecord(Long id) {
+    public ResponseEntity<?> deletePointRecord(Long id) {
+        Optional<PointRecord> optionalPointRecord = pointRecordRepository.findById(id);
+        if (optionalPointRecord.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("PointRecord not found with id " + id);
+
         pointRecordRepository.deleteById(id);
+        return ResponseEntity.status(HttpStatus.OK).body("PointRecord deleted with id " + id);
     }
 }
