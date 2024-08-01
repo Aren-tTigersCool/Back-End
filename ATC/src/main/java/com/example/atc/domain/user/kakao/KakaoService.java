@@ -1,8 +1,11 @@
 package com.example.atc.domain.user.kakao;
 
 import com.example.atc.domain.user.dto.UserDTO;
+import com.example.atc.domain.user.entity.ProfilePicture;
 import com.example.atc.domain.user.entity.User;
+import com.example.atc.domain.user.repository.ProfilePictureRepository;
 import com.example.atc.domain.user.repository.UserRepository;
+import com.example.atc.global.S3UploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ public class KakaoService {
     private final KakaoTokenClient kakaoTokenClient;
     private final KakaoInfoClient kakaoInfoClient;
     private final UserRepository userRepository;
+    private final ProfilePictureRepository profilePictureRepository;
 
     private String contentType = "Content_Type: application/x-www-form-urlencoded";
 
@@ -57,7 +61,7 @@ public class KakaoService {
             "email":"day020908@gmail.com"}}
 
          */
-            return token;
+        return token;
     }
 
     public UserDTO getKakaoInfo(String token){
@@ -65,27 +69,49 @@ public class KakaoService {
         System.out.println(userDTO);
         return userDTO;
     }
-
+    private final S3UploadService s3UploadService;
     public User registerKakaoUser(UserDTO userDTO) {
         String nickname = userDTO.getKakaoAccount().getProfile().getNickname();
         String email = userDTO.getKakaoAccount().getEmail();
-        Long kakaoId = userDTO.getUserId();  // DB 에 중복된 Kakao Id 가 있는지 확인
+        Long kakaoId = userDTO.getUserId();
+        String imageUrl = userDTO.getKakaoAccount().getProfile().getProfileImageUrl();
+        System.out.println(nickname +"\n"+ email+"\n" + nickname+"\n" + imageUrl);
+
         User kakaoUser = userRepository.findById(kakaoId) // 있으면 kakaoUser 없으면 null
                 .orElse(null);
 
-        if (kakaoUser != null) {    // 카카오 사용자 email 동일한 email 가진 회원이 있는지 확인
+        ProfilePicture kakaoProfilePicture;
+
+        if (kakaoUser != null) { // 카카오 사용자 email 동일한 email 가진 회원이 있는지 확인
+            // 기존 프로필 사진 객체를 재사용
+            kakaoProfilePicture = kakaoUser.getProfilePicture() != null ? kakaoUser.getProfilePicture() : new ProfilePicture();
             kakaoUser.setUserId(kakaoId);
-            kakaoUser.setNickName(nickname);
             kakaoUser.setEmail(email);
-            System.out.println(nickname+"님 로그인");
+            //닉네임도 변경 가능 여부 (카카오랑 다르게)에 따라 이부분 바뀜
+            kakaoUser.setNickName(nickname);
+
+            System.out.println(nickname + "님 로그인");
         } else {
+            kakaoProfilePicture = new ProfilePicture();
+            //프사 변경 가능할 때
+//            kakaoProfilePicture.setPictureUrl(imageUrl);
+            //닉네임도 수정 가능 여부에 따라 이 부분 바뀜
+            userDTO.setNickname(nickname);
+
             kakaoUser = User.builder()
                     .userId(kakaoId)
                     .nickName(nickname)
                     .email(email)
+                    .profilePicture(kakaoProfilePicture)
                     .build();
-            System.out.println(nickname+"님 회원가입");
+
+            System.out.println(nickname + "님 회원가입");
         }
+
+        kakaoProfilePicture.setPictureUrl(imageUrl); //카카오프사랑 늘 같은 프사일 때
+        kakaoProfilePicture.setUser(kakaoUser);
+
+        profilePictureRepository.save(kakaoProfilePicture);
         userRepository.save(kakaoUser); // 변경사항을 저장
 
         return kakaoUser;
