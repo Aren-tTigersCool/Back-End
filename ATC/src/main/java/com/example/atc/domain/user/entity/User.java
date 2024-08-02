@@ -1,6 +1,9 @@
 package com.example.atc.domain.user.entity;
 
+import com.example.atc.domain.plogging.entity.PloggingPicture;
 import com.example.atc.domain.pointRecord.entity.PointRecord;
+import com.example.atc.domain.user.dto.UserDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,7 +26,6 @@ public class User {
 
     private Long userPw;
     private Long categoryId;
-    private Long profilePicId;
     private String nickName;
     private Double height;
     private Double weight;
@@ -35,4 +37,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<PointRecord> pointRecords = new LinkedList<>();
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
+    private ProfilePicture profilePicture;
+
 }

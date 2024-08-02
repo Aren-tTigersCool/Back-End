@@ -22,6 +22,12 @@ public class KakaoProfileDto {
             @JsonProperty("nickname")
             private String nickname;
 
+            @JsonProperty("profile_image_url")
+            public String profileImageUrl;
+
+            @JsonProperty("thumbnail_image_url")
+            public String thumbnailImageUrl;
+
         }
     }
 

@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class KakaoController {
     private final KakaoService kakaoService;
     @GetMapping("/login/oauth/kakao")
-    public ResponseEntity<?> kakaoCallback(String code){
+    public String kakaoCallback(String code){
         System.out.println("code = " + code);
         String token = kakaoService.getKakaoToken(code);
         UserDTO userDTO = kakaoService.getKakaoInfo(token);
         User user = kakaoService.registerKakaoUser(userDTO);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return token;
     }
 
 
