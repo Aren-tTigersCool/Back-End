@@ -101,14 +101,14 @@ public class UserService {
         user.setUserId(userDTO.getUserId());  // 카카오 ID를 그대로 사용
         user.setUserPw(userDTO.getUserPw());
         user.setCategoryId(userDTO.getCategoryId());
-        user.setNickName(userDTO.getNickname()); //초기 닉네임은 kakao닉네임이지만 변경 가능??
+        user.setNickName(userDTO.getNickname()); //초기 닉네임은 kakao닉네임이지만 변경 가능하게 하려면
         user.setHeight(userDTO.getHeight());
         user.setWeight(userDTO.getWeight());
         user.setCalSum(userDTO.getCalSum());
         user.setCarSum(userDTO.getCarSum());
         user.setTotalPoint(userDTO.getTotalPoint());
         user.setEmail(user.getEmail());
-//        user.setEmail(userDTO.getKakaoAccount().getEmail()); //이메일은 변경하면 안 되는디...
+//        user.setEmail(userDTO.getKakaoAccount().getEmail()); //이메일은 변경할 일 없음
         return user;
     }
 

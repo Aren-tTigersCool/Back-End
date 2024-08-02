@@ -93,10 +93,6 @@ public class KakaoService {
             System.out.println(nickname + "님 로그인");
         } else {
             kakaoProfilePicture = new ProfilePicture();
-            //프사 변경 가능할 때
-//            kakaoProfilePicture.setPictureUrl(imageUrl);
-            //닉네임도 수정 가능 여부에 따라 이 부분 바뀜
-            userDTO.setNickname(nickname);
 
             kakaoUser = User.builder()
                     .userId(kakaoId)
