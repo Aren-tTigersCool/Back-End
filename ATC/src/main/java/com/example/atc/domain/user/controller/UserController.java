@@ -1,29 +1,28 @@
 package com.example.atc.domain.user.controller;
 
 import com.example.atc.domain.user.dto.UserDTO;
-import com.example.atc.domain.user.entity.User;
 import com.example.atc.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/users")
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
-        return userService.createUser(userDTO);
+    @PostMapping //쓸 일이 있을까??
+    public ResponseEntity<?> createUser(@RequestPart UserDTO userDTO, @RequestPart MultipartFile file) {
+        return userService.createUser(userDTO, file);
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<?> getAllUsers() {
         return userService.getAllUsers();
     }
 
@@ -33,8 +32,10 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
-        return userService.updateUser(id, userDTO);
+    public ResponseEntity<?> updateUser(@PathVariable Long id,
+                                        @RequestPart UserDTO userDTO,
+                                        @RequestPart(required = false) MultipartFile file) {
+        return userService.updateUser(id, userDTO, file);
     }
 
     @DeleteMapping("/{id}")
