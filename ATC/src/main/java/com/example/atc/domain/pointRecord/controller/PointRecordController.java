@@ -27,7 +27,7 @@ public class PointRecordController {
     }
 
     @GetMapping("/{id}")
-    public PointRecord getPointRecordById(@PathVariable Long id) {
+    public ResponseEntity<?> getPointRecordById(@PathVariable Long id) {
         return pointRecordService.getPointRecordById(id);
     }
 
@@ -37,8 +37,8 @@ public class PointRecordController {
     }
 
     @DeleteMapping("/{id}")
-    public void deletePointRecord(@PathVariable Long id) {
-        pointRecordService.deletePointRecord(id);
+    public ResponseEntity<?> deletePointRecord(@PathVariable Long id) {
+        return pointRecordService.deletePointRecord(id);
     }
 }
 

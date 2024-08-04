@@ -1,29 +1,21 @@
-package com.example.atc.domain.user.dto;
-
+package com.example.atc.domain.user.kakao;
+import com.example.atc.domain.user.dto.UserDTO;
 import com.example.atc.domain.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class UserDTO {
+public class KakaoProfileDto {
 
-    @JsonProperty("id")
-    private Long userId;
-
-
-    private Long userPw, categoryId;
-    private Double height, weight, calSum, carSum;
-    private int totalPoint;
-
-    private String nickname;
+    private Long id;
 
     @JsonProperty("kakao_account")
-    private UserDTO.KakaoAccount kakaoAccount;
+    private KakaoAccount kakaoAccount;
 
     @Data
     public static class KakaoAccount {
         private String email;
-        private UserDTO.KakaoAccount.Profile profile;
+        private Profile profile;
 
         @Data
         public static class Profile{
@@ -35,7 +27,18 @@ public class UserDTO {
 
             @JsonProperty("thumbnail_image_url")
             public String thumbnailImageUrl;
+
         }
     }
+
+//    public UserDTO toUser(){
+//        UserDTO userDTO = new UserDTO();
+//        userDTO.setUserId(this.id);
+//        userDTO.setEmail(kakaoAccount.getEmail());
+//        userDTO.setNickName(kakaoAccount.getProfile().nickname);
+//        return userDTO;
+//    }
+
+
 
 }

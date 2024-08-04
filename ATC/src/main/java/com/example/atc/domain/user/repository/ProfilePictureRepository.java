@@ -1,11 +1,10 @@
 package com.example.atc.domain.user.repository;
 
-import com.example.atc.domain.user.entity.User;
+
+import com.example.atc.domain.user.entity.ProfilePicture;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    User save(User user);
-
+public interface ProfilePictureRepository extends JpaRepository<ProfilePicture, Long> {
 }
