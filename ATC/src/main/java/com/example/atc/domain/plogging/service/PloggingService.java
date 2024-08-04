@@ -76,7 +76,7 @@ public class PloggingService {
 //        PloggingPicture ploggingPicture = new PloggingPicture();
 //        ploggingPicture.setPictureUrl(pictureUrl);
 //        return ploggingPictureRepository.save(ploggingPicture);
-//    }
+    //}
     public String savePicture(MultipartFile file) throws IOException {
         return s3UploadService.saveFile(file);
     }

@@ -14,6 +14,7 @@ public class UserDTO {
     private Long userPw, categoryId;
     private Double height, weight, calSum, carSum;
     private int totalPoint;
+
     private String nickname;
 
     @JsonProperty("kakao_account")
@@ -36,4 +37,5 @@ public class UserDTO {
             public String thumbnailImageUrl;
         }
     }
+
 }
