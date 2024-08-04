@@ -20,6 +20,7 @@ public class PloggingController {
 
     @Operation(summary = "플로깅 인증 내역 생성", description = "플로깅 인증 내역을 생성합니다.")
     @PostMapping
+
     public ResponseEntity<?> createPlogging(@RequestPart(value = "request") PloggingDto dto, @RequestPart(value = "file") MultipartFile file) {
         return ploggingService.createPlogging(dto, file);
     }
@@ -28,6 +29,7 @@ public class PloggingController {
     @GetMapping
     public List<Plogging> getAllPloggings() {
         return ploggingService.retrieveAllPloggings();
+
     }
 
     @Operation(summary = "게시물 수정", description = "게시물을 수정합니다.")
@@ -37,14 +39,14 @@ public class PloggingController {
     }
 
     @Operation(summary = "플로깅 인증 내역 삭제", description = "recordID를 통해 게시물을 삭제합니다.")
-    @DeleteMapping("/{recodrId}")
-    public void deletePlogging(@PathVariable Long recodrId) {
-        ploggingService.deletePlogging(recodrId);
+    @DeleteMapping("/{recordId}")
+    public void deletePlogging(@PathVariable Long recordId) {
+        ploggingService.deletePlogging(recordId);
     }
 
 //    @Operation(summary = "플로깅 사진 업로드", description = "플로깅 사진을 업로드합니다.")
 //    @PostMapping("/upload")
-//    public PloggingPicture uploadFile(@RequestParam("file") MultipartFile file) {
+//    public PloggingPicture uploadFile(@RequestParam("image") MultipartFile file) {
 //        try {
 //            return ploggingService.savePicture(file);
 //        } catch (IOException e) {
