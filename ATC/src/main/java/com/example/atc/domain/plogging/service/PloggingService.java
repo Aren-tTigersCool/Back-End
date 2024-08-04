@@ -72,13 +72,13 @@ public class PloggingService {
         ploggingRepository.deleteById(recordId);
     }
 
-
     public PloggingPicture savePicture(MultipartFile file) throws IOException{
         String pictureUrl = s3UploadService.saveFile(file);
         PloggingPicture ploggingPicture = new PloggingPicture();
         ploggingPicture.setPictureUrl(pictureUrl);
         ploggingPicture.setRecordDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         return ploggingPictureRepository.save(ploggingPicture);
+
     }
 //    public String savePicture(MultipartFile file) throws IOException {
 //        return s3UploadService.saveFile(file);
