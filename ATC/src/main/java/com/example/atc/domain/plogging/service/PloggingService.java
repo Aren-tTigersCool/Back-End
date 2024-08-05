@@ -23,16 +23,19 @@ import java.util.List;
 @Transactional
 @Service
 public class PloggingService {
-//    @Autowired
+    //    @Autowired
     private final PloggingRepository ploggingRepository;
 
-//    @Autowired
+    //    @Autowired
     private final PloggingPictureRepository ploggingPictureRepository;
 
 
-//    @Autowired
+    //    @Autowired
     private final S3UploadService s3UploadService;
-    public List<Plogging> retrieveAllPloggings(){return ploggingRepository.findAll();}
+
+    public List<Plogging> retrieveAllPloggings() {
+        return ploggingRepository.findAll();
+    }
 
 //    public ResponseEntity<?> createPlogging(PloggingDto dto, MultipartFile file) {
 //        if(file == null || file.isEmpty()) {
@@ -60,27 +63,28 @@ public class PloggingService {
 //        }
 //    }
 
-    public void updatePlogging(Long recordId, Plogging ploggingDetails){
-        Plogging plogging = ploggingRepository.findById(recordId).orElseThrow(()->new IllegalArgumentException("Invalid post ID: "+recordId));
+    public void updatePlogging(Long recordId, Plogging ploggingDetails) {
+        Plogging plogging = ploggingRepository.findById(recordId).orElseThrow(() -> new IllegalArgumentException("Invalid post ID: " + recordId));
         plogging.setTimeTaken(ploggingDetails.getTimeTaken());
         plogging.setDistance(ploggingDetails.getDistance());
         plogging.setAuthenticationTime(ploggingDetails.getAuthenticationTime());
         plogging.setLocation(ploggingDetails.getLocation());
     }
 
-    public void deletePlogging(Long recordId){
+    public void deletePlogging(Long recordId) {
         ploggingRepository.deleteById(recordId);
     }
 
-    public PloggingPicture savePicture(MultipartFile file) throws IOException{
+    public PloggingPicture savePicture(MultipartFile file) throws IOException {
         String pictureUrl = s3UploadService.saveFile(file);
         PloggingPicture ploggingPicture = new PloggingPicture();
         ploggingPicture.setPictureUrl(pictureUrl);
         ploggingPicture.setRecordDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         return ploggingPictureRepository.save(ploggingPicture);
 
-    }
+
 //    public String savePicture(MultipartFile file) throws IOException {
 //        return s3UploadService.saveFile(file);
 //    }
+    }
 }
