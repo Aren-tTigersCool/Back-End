@@ -11,29 +11,9 @@ public class UserDTO {
     private Long userId;
 
 
-    private Long userPw, categoryId;
+    private Long  categoryId;
     private Double height, weight, calSum, carSum;
-    private int totalPoint;
-    private String nickname;
+    private int totalPoint, todayTotalPoint;
+    private String userPw,nickname;
 
-    @JsonProperty("kakao_account")
-    private UserDTO.KakaoAccount kakaoAccount;
-
-    @Data
-    public static class KakaoAccount {
-        private String email;
-        private UserDTO.KakaoAccount.Profile profile;
-
-        @Data
-        public static class Profile{
-            @JsonProperty("nickname")
-            private String nickname;
-
-            @JsonProperty("profile_image_url")
-            public String profileImageUrl;
-
-            @JsonProperty("thumbnail_image_url")
-            public String thumbnailImageUrl;
-        }
-    }
 }

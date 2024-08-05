@@ -24,7 +24,7 @@ public class User {
     @Id
     private Long userId;  // 카카오 ID를 그대로 사용
 
-    private Long userPw;
+    private String userPw;
     private Long categoryId;
     private String nickName;
     private Double height;
@@ -32,7 +32,7 @@ public class User {
     private Double calSum;
     private Double carSum;
     private int totalPoint;
-    private String email;
+    private int todayTotalPoint;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference

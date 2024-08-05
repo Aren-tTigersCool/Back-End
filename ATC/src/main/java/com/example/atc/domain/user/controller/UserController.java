@@ -16,7 +16,15 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping //쓸 일이 있을까??
+    @PostMapping ("/signUp")  //회원가입
+    public ResponseEntity<?> signUp(@RequestBody UserDTO userDTO) {
+        return userService.signUp(userDTO);
+    }
+    @PostMapping ("/join") //로그인
+    public ResponseEntity<?> login(@RequestPart UserDTO userDTO) {
+        return userService.login(userDTO);
+    }
+    @PostMapping
     public ResponseEntity<?> createUser(@RequestPart UserDTO userDTO, @RequestPart MultipartFile file) {
         return userService.createUser(userDTO, file);
     }
@@ -31,7 +39,7 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}") //회원정보 수정
     public ResponseEntity<?> updateUser(@PathVariable Long id,
                                         @RequestPart UserDTO userDTO,
                                         @RequestPart(required = false) MultipartFile file) {
