@@ -33,9 +33,11 @@ public class PloggingService {
     //    @Autowired
     private final S3UploadService s3UploadService;
 
+
     public List<Plogging> retrieveAllPloggings() {
         return ploggingRepository.findAll();
     }
+
 
 //    public ResponseEntity<?> createPlogging(PloggingDto dto, MultipartFile file) {
 //        if(file == null || file.isEmpty()) {
@@ -81,7 +83,6 @@ public class PloggingService {
         ploggingPicture.setPictureUrl(pictureUrl);
         ploggingPicture.setRecordDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         return ploggingPictureRepository.save(ploggingPicture);
-
 
 //    public String savePicture(MultipartFile file) throws IOException {
 //        return s3UploadService.saveFile(file);
