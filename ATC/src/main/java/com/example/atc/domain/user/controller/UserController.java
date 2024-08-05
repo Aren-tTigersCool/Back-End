@@ -37,7 +37,7 @@ public class UserController {
         return userService.createUser(userDTO);
     }
 
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<?> getAllUsers() {
         return userService.getAllUsers();
     }
