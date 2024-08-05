@@ -10,6 +10,6 @@ public class UserDTO {
     private Long  categoryId;
     private Double height, weight, calSum, carSum;
     private int totalPoint, todayTotalPoint;
-    private String userPw,nickname;
+    private String memberId, userPw,nickname;
 
 }

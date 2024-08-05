@@ -22,8 +22,10 @@ import java.util.List;
 @Table(name = "users")
 public class User {
     @Id
-    private Long userId;  // 카카오 ID를 그대로 사용
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
 
+    private String memberId;
     private String userPw;
     private Long categoryId;
     private String nickName;

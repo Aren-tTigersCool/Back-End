@@ -32,19 +32,22 @@ public class UserService {
 
 
 
-    public ResponseEntity<?> login(UserDTO userDTO) {
-        Long id = userDTO.getUserId();
-        String pw = userDTO.getUserPw();
+    public ResponseEntity<?> login(String memberId, String password) {
+        String id = memberId;
+        String pw = password;
+
+        System.out.println(id + pw);
 
         try {
             // 사용자 id/password 일치하는지 확인
-            boolean existed = userRepository.existsByUserIdAndUserPw(id, pw);
+            boolean existed = userRepository.existsByMemberIdAndUserPw(id, pw);
             if(!existed) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("입력하신 정보가 존재하지 않습니다.");
             } else {
-                Optional<User> userOptional = userRepository.findById(id);
+                Optional<User> userOptional = userRepository.findByMemberId(id);
                 if (userOptional.isPresent()) {
                     User user = userOptional.get();
+                    System.out.println("로그인 성공");
                     return ResponseEntity.status(HttpStatus.OK).body(user);
                 } else {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
@@ -55,42 +58,60 @@ public class UserService {
         }
     }
 
-//    public ResponseEntity<?> isAvailable(UserDTO userDTO) {
-//
-//        try {
-//            if (userRepository.existsById(userDTO.getUserId())) {
-//                System.out.println();
-//                return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 ID입니다.");
-//            }
-//            String pw = userDTO.getUserPw();
-//            if (!isValidPassword(String.valueOf(pw))) {
-//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호는 8자 이상, 대문자, 소문자, 숫자 및 특수문자를 포함해야 합니다.");
-//            }
-//        }
-//    }
+    public boolean checkIdAndPw(String memberId, String name, String password) {
+        return !userRepository.existsByMemberIdAndUserPw(memberId, password);
+    }
 
-
-    public ResponseEntity<?> signUp(UserDTO userDTO) {
+    public ResponseEntity<?> signUp(String memberId, String name, String password) {
         try {
-            if (userRepository.existsById(userDTO.getUserId())) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 ID입니다.");
-            }
 
-            String pw = userDTO.getUserPw();
-            if (!isValidPassword(String.valueOf(pw))) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호는 8자 이상, 대문자, 소문자, 숫자 및 특수문자를 포함해야 합니다.");
-            }
-
+            UserDTO userDTO = new UserDTO();
+            userDTO.setMemberId(memberId);
+            userDTO.setNickname(name);
+            userDTO.setUserPw(password);
             User user = new User();
-            User changedUser = this.setEntityData(userDTO, user);
-
-            User savedUser = userRepository.save(changedUser);
+            user.setMemberId(memberId);
+            user.setUserPw(password);
+            user.setCategoryId(null);
+            user.setNickName(name);
+            user.setHeight(null);
+            user.setWeight(null);
+            user.setCalSum(null);
+            user.setCarSum(null);
+            user.setTotalPoint(0);
+            User savedUser = userRepository.save(user);
 
             return ResponseEntity.status(HttpStatus.OK).body(savedUser);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("알 수 없는 오류가 발생했습니다.");
         }
     }
+
+//    public boolean isAvailable(Long userId, String pw) {
+//        return !userRepository.existsByUserIdAndUserPw(userId, pw );
+//    }
+
+//    public ResponseEntity<?> signUp(UserDTO userDTO) {
+//        try {
+//            if (userRepository.existsById(userDTO.getUserId())) {
+//                return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 ID입니다.");
+//            }
+//
+//            String pw = userDTO.getUserPw();
+//            if (!isValidPassword(String.valueOf(pw))) {
+//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호는 8자 이상, 대문자, 소문자, 숫자 및 특수문자를 포함해야 합니다.");
+//            }
+//
+//            User user = new User();
+//            User changedUser = this.setEntityData(userDTO, user);
+//
+//            User savedUser = userRepository.save(changedUser);
+//
+//            return ResponseEntity.status(HttpStatus.OK).body(savedUser);
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("알 수 없는 오류가 발생했습니다.");
+//        }
+//    }
 
     // 비밀번호 검증
     private boolean isValidPassword(String password) {
