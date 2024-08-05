@@ -194,7 +194,7 @@ public class UserService {
         return s3UploadService.saveFile(file);
     }
 
-    private ResponseEntity<User> saveUser(User user){
+    public ResponseEntity<User> saveUser(User user){
         user = userRepository.save(user);
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
