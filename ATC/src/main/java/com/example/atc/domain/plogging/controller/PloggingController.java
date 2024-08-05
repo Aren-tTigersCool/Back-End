@@ -16,7 +16,11 @@ public class PloggingController {
     @Autowired
     private PloggingService ploggingService;
 
-<<<<<<< HEAD
+//    @Operation(summary = "플로깅 인증 내역 생성", description = "플로깅 인증 내역을 생성합니다.")
+//    @PostMapping
+//    public Plogging createPost(@RequestBody Plogging plogging) {
+//            return ploggingService.createPlogging(plogging);
+//        }
 
 //    @Operation(summary = "플로깅 인증 내역 생성", description = "플로깅 인증 내역을 생성합니다.")
 //    @PostMapping
@@ -24,20 +28,6 @@ public class PloggingController {
 //        return ploggingService.createPlogging(dto, file);
 //    }
 
-
-=======
-//    @Operation(summary = "플로깅 인증 내역 생성", description = "플로깅 인증 내역을 생성합니다.")
-//    @PostMapping
-//    public Plogging createPost(@RequestBody Plogging plogging) {
-//            return ploggingService.createPlogging(plogging);
-//        }
-
-    @Operation(summary = "플로깅 인증 내역 생성", description = "플로깅 인증 내역을 생성합니다.")
-    @PostMapping
-    public ResponseEntity<?> createPlogging(@RequestPart(value = "request") PloggingDto dto, @RequestPart(value = "file") MultipartFile file) {
-        return ploggingService.createPlogging(dto, file);
-    }
->>>>>>> develop
 
     @Operation(summary = "플로깅 내역 조회", description = "전체 플로깅 내역을 조회합니다.")
     @GetMapping
