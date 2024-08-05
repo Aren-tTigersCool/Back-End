@@ -2,6 +2,8 @@ package com.example.atc.domain.user.service;
 
 import com.example.atc.domain.pointRecord.entity.PointRecord;
 import com.example.atc.domain.user.dto.UserDTO;
+import com.example.atc.domain.user.dto.logInDTO;
+import com.example.atc.domain.user.dto.signUpDTO;
 import com.example.atc.domain.user.entity.ProfilePicture;
 import com.example.atc.domain.user.entity.User;
 import com.example.atc.domain.user.repository.ProfilePictureRepository;
@@ -32,9 +34,9 @@ public class UserService {
 
 
 
-    public ResponseEntity<?> login(String memberId, String password) {
-        String id = memberId;
-        String pw = password;
+    public ResponseEntity<?> login(logInDTO logInDTO) {
+        String id = logInDTO.getMemberId();
+        String pw = logInDTO.getPassword();
 
         System.out.println(id + pw);
 
@@ -47,7 +49,6 @@ public class UserService {
                 Optional<User> userOptional = userRepository.findByMemberId(id);
                 if (userOptional.isPresent()) {
                     User user = userOptional.get();
-                    System.out.println("로그인 성공");
                     return ResponseEntity.status(HttpStatus.OK).body(user);
                 } else {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
@@ -62,7 +63,10 @@ public class UserService {
         return !userRepository.existsByMemberId(memberId);
     }
 
-    public ResponseEntity<?> signUp(String memberId, String name, String password) {
+    public ResponseEntity<?> signUp(signUpDTO signUpDTO) {
+        String memberId = signUpDTO.getMemberId();
+        String password = signUpDTO.getPassword();
+        String name = signUpDTO.getName();
         try {
             if (userRepository.existsByMemberId(memberId)) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 ID입니다.");
