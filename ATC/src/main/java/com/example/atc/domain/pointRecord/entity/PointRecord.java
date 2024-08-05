@@ -19,7 +19,8 @@ public class PointRecord {
     private User user;
 
     private int addSubPoint;
+    private int totalPoint;
+    private int todayTotalPoint;
 
     private String usedDate;
-
 }
