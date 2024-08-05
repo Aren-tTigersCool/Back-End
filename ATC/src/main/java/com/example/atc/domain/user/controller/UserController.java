@@ -15,7 +15,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    @PostMapping("/checkIdAndPw")
+    @PostMapping("/check")
     public boolean checkIdAndPw(@RequestBody String memberId, String name, String password) {
         return userService.checkIdAndPw(memberId, name, password);
     }
@@ -28,7 +28,7 @@ public class UserController {
         }
         else return ResponseEntity.ok("회원가입 실패");
     }
-    @PostMapping ("/join") //로그인
+    @PostMapping ("/login") //로그인
     public ResponseEntity<?> login(@RequestBody String memberId, String password) {
         return userService.login(memberId, password);
     }
