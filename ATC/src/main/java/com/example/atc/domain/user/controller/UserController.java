@@ -1,6 +1,8 @@
 package com.example.atc.domain.user.controller;
 
 import com.example.atc.domain.user.dto.UserDTO;
+import com.example.atc.domain.user.dto.logInDTO;
+import com.example.atc.domain.user.dto.signUpDTO;
 import com.example.atc.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +23,16 @@ public class UserController {
     }
 
     @PostMapping("/signUp")
-    public ResponseEntity<?> signUp(@RequestBody String memberId, String name, String password) {
-        if (userService.checkId(memberId)){
-            userService.signUp(memberId, name, password);
+    public ResponseEntity<?> signUp(@RequestBody signUpDTO signUpDTO) {
+        if (userService.checkId(signUpDTO.getMemberId())){
+            userService.signUp(signUpDTO);
             return ResponseEntity.ok("회원가입 성공");
         }
         else return ResponseEntity.ok("회원가입 실패");
     }
     @PostMapping ("/login") //로그인
-    public ResponseEntity<?> login(@RequestBody String memberId, String password) {
-        return userService.login(memberId, password);
+    public ResponseEntity<?> login(@RequestBody logInDTO logInDTO) {
+        return userService.login(logInDTO);
     }
     @PostMapping
     public ResponseEntity<?> createUser(@RequestPart UserDTO userDTO, @RequestPart MultipartFile file) {
