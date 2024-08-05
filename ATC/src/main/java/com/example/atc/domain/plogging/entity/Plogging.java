@@ -33,5 +33,5 @@ public class Plogging {
                 this.distance = distance;
                 this.ploggingPicture = ploggingPicture;
         }
-        
+
 }
