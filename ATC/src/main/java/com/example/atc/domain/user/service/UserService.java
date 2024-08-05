@@ -58,30 +58,40 @@ public class UserService {
         }
     }
 
-    public boolean checkIdAndPw(String memberId, String name, String password) {
-        return !userRepository.existsByMemberIdAndUserPw(memberId, password);
+    public boolean checkId(String memberId) {
+        return !userRepository.existsByMemberId(memberId);
     }
 
     public ResponseEntity<?> signUp(String memberId, String name, String password) {
         try {
+            if (userRepository.existsByMemberId(memberId)) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 ID입니다.");
+            }
 
-            UserDTO userDTO = new UserDTO();
-            userDTO.setMemberId(memberId);
-            userDTO.setNickname(name);
-            userDTO.setUserPw(password);
-            User user = new User();
-            user.setMemberId(memberId);
-            user.setUserPw(password);
-            user.setCategoryId(null);
-            user.setNickName(name);
-            user.setHeight(null);
-            user.setWeight(null);
-            user.setCalSum(null);
-            user.setCarSum(null);
-            user.setTotalPoint(0);
-            User savedUser = userRepository.save(user);
+            if (!isValidPassword(String.valueOf(password))) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호는 8자 이상, 대문자, 소문자, 숫자 및 특수문자를 포함해야 합니다.");
+            }
 
-            return ResponseEntity.status(HttpStatus.OK).body(savedUser);
+            else {
+
+                UserDTO userDTO = new UserDTO();
+                userDTO.setMemberId(memberId);
+                userDTO.setNickname(name);
+                userDTO.setUserPw(password);
+                User user = new User();
+                user.setMemberId(memberId);
+                user.setUserPw(password);
+                user.setCategoryId(null);
+                user.setNickName(name);
+                user.setHeight(null);
+                user.setWeight(null);
+                user.setCalSum(null);
+                user.setCarSum(null);
+                user.setTotalPoint(0);
+                User savedUser = userRepository.save(user);
+
+                return ResponseEntity.status(HttpStatus.OK).body(savedUser);
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("알 수 없는 오류가 발생했습니다.");
         }
