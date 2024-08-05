@@ -15,8 +15,24 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    @PostMapping("/check")
+    public boolean checkIdAndPw(@RequestBody String memberId) {
+        return userService.checkId(memberId);
+    }
 
-    @PostMapping //쓸 일이 있을까??
+    @PostMapping("/signUp")
+    public ResponseEntity<?> signUp(@RequestBody String memberId, String name, String password) {
+        if (userService.checkId(memberId)){
+            userService.signUp(memberId, name, password);
+            return ResponseEntity.ok("회원가입 성공");
+        }
+        else return ResponseEntity.ok("회원가입 실패");
+    }
+    @PostMapping ("/login") //로그인
+    public ResponseEntity<?> login(@RequestBody String memberId, String password) {
+        return userService.login(memberId, password);
+    }
+    @PostMapping
     public ResponseEntity<?> createUser(@RequestPart UserDTO userDTO, @RequestPart MultipartFile file) {
         return userService.createUser(userDTO, file);
     }
@@ -31,7 +47,7 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}") //회원정보 수정
     public ResponseEntity<?> updateUser(@PathVariable Long id,
                                         @RequestPart UserDTO userDTO,
                                         @RequestPart(required = false) MultipartFile file) {

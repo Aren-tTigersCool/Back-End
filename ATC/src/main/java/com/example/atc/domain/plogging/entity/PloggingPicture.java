@@ -16,6 +16,7 @@ public class PloggingPicture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int pictureId;
     private String pictureUrl;
+    private String recordDate;
     @OneToOne(mappedBy = "ploggingPicture", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private Plogging plogging;
