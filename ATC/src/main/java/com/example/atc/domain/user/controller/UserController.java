@@ -16,13 +16,13 @@ public class UserController {
 
     private final UserService userService;
     @PostMapping("/check")
-    public boolean checkIdAndPw(@RequestBody String memberId, String name, String password) {
-        return userService.checkIdAndPw(memberId, name, password);
+    public boolean checkIdAndPw(@RequestBody String memberId) {
+        return userService.checkId(memberId);
     }
 
     @PostMapping("/signUp")
     public ResponseEntity<?> signUp(@RequestBody String memberId, String name, String password) {
-        if (userService.checkIdAndPw(memberId, name, password)){
+        if (userService.checkId(memberId)){
             userService.signUp(memberId, name, password);
             return ResponseEntity.ok("회원가입 성공");
         }
