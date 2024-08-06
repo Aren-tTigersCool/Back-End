@@ -8,8 +8,8 @@ import lombok.Data;
 public class UserDTO {
     private Long userId;
     private Long  categoryId;
-    private Double height, weight, /*calSum, carSum,*/ totalCo2, totalCalorie, todayTotalCo2, todayTotalCalorie;
-    private int totalPoint, todayTotalPoint;
+    private Double height, weight, /*calSum, carSum,*/ totalCo2, totalCalorie;
+    private int totalPoint;
     private String memberId, userPw,nickname;
 
 }
