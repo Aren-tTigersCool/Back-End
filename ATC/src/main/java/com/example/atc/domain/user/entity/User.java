@@ -1,5 +1,7 @@
 package com.example.atc.domain.user.entity;
 
+import com.example.atc.domain.calorieRecord.entity.CalorieRecord;
+import com.example.atc.domain.co2Record.entity.Co2Record;
 import com.example.atc.domain.plogging.entity.PloggingPicture;
 import com.example.atc.domain.pointRecord.entity.PointRecord;
 import com.example.atc.domain.user.dto.UserDTO;
@@ -29,14 +31,23 @@ public class User {
     private String nickName;
     private Double height;
     private Double weight;
-    private Double calSum;
-    private Double carSum;
+    //private Double calSum;
+    //private Double carSum;
     private int totalPoint;
-    private int todayTotalPoint;
+    private Double totalCo2;
+    private Double totalCalorie;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<PointRecord> pointRecords = new LinkedList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Co2Record> pointCo2 = new LinkedList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<CalorieRecord> pointCalorie = new LinkedList<>();
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference

@@ -31,10 +31,12 @@ public class PointRecordController {
         return pointRecordService.getPointRecordById(id);
     }
 
+    /*
     @PutMapping("/{id}")
     public ResponseEntity<?> updatePointRecord(@PathVariable Long id, @RequestBody PointRecordDto dto) {
         return pointRecordService.updatePointRecord(id, dto);
     }
+     */
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePointRecord(@PathVariable Long id) {
