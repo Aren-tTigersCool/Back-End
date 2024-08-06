@@ -47,7 +47,7 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @GetMapping("/{memberId}")
+    @GetMapping("/member/{memberId}")
     public ResponseEntity<?> getUserByMemberId(@PathVariable String memberId) {
         return userService.getUserByMemberId(memberId);
     }
