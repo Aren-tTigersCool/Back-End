@@ -167,9 +167,11 @@ public class UserService {
         user.setNickName(userDTO.getNickname());
         user.setHeight(userDTO.getHeight());
         user.setWeight(userDTO.getWeight());
-        user.setCalSum(userDTO.getCalSum());
-        user.setCarSum(userDTO.getCarSum());
+        //user.setCalSum(userDTO.getCalSum());
+        //user.setCarSum(userDTO.getCarSum());
         user.setTotalPoint(userDTO.getTotalPoint());
+        user.setTotalCo2(userDTO.getTotalCo2());
+        user.setTotalCalorie(userDTO.getTotalCalorie());
         return user;
     }
 
