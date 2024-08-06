@@ -40,6 +40,12 @@ public class PloggingController {
 
     }
 
+    @Operation(summary = "플로깅 사진 조회",description = "전체 플로깅 사진을 조회합니다.")
+    @GetMapping("/pic")
+    public List<PloggingPicture>getAllPloggingPicture(){
+        return ploggingService.retrieveAllPloggingPictures();
+    }
+
     @Operation(summary = "게시물 수정", description = "게시물을 수정합니다.")
     @PutMapping("/{recordId}")
     public void updatePlogging(@PathVariable Long recordId, @RequestBody Plogging ploggingDetails) {

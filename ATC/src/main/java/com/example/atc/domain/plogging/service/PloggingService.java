@@ -88,4 +88,8 @@ public class PloggingService {
 //        return s3UploadService.saveFile(file);
 //    }
     }
+
+    public List<PloggingPicture> retrieveAllPloggingPictures() {
+        return ploggingPictureRepository.findAll();
+    }
 }
