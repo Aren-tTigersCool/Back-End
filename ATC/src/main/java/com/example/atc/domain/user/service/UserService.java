@@ -89,6 +89,9 @@ public class UserService {
 //                user.setCalSum(null);
 //                user.setCarSum(null);
                 user.setTotalPoint(0);
+                user.setTotalCo2(0.0);
+                user.setTotalCalorie(0.0);
+
                 User savedUser = userRepository.save(user);
 
                 return ResponseEntity.status(HttpStatus.OK).body(savedUser);
