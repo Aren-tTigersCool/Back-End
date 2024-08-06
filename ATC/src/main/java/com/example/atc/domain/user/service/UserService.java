@@ -86,8 +86,8 @@ public class UserService {
                 user.setNickName(name);
                 user.setHeight(null);
                 user.setWeight(null);
-                user.setCalSum(null);
-                user.setCarSum(null);
+//                user.setCalSum(null);
+//                user.setCarSum(null);
                 user.setTotalPoint(0);
                 User savedUser = userRepository.save(user);
 
