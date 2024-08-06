@@ -69,7 +69,7 @@ public class UserService {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 ID입니다.");
             }
 
-            if (!isValidPassword(String.valueOf(password))) {
+            if (password!=null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호는 8자 이상, 대문자, 소문자, 숫자 및 특수문자를 포함해야 합니다.");
             }
 
@@ -99,16 +99,16 @@ public class UserService {
     }
 
     // 비밀번호 검증
-    private boolean isValidPassword(String password) {
-        if (password == null) {
-            return false;
-        }
-        // 정규표현식 패턴: 8자 이상, 대문자, 소문자, 숫자, 특수문자 포함
-        String passwordPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
-        Pattern pattern = Pattern.compile(passwordPattern);
-        Matcher matcher = pattern.matcher(password);
-        return matcher.matches();
-    }
+//    private boolean isValidPassword(String password) {
+//        if (password == null) {
+//            return false;
+//        }
+//        // 정규표현식 패턴: 8자 이상, 대문자, 소문자, 숫자, 특수문자 포함
+//        String passwordPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+//        Pattern pattern = Pattern.compile(passwordPattern);
+//        Matcher matcher = pattern.matcher(password);
+//        return matcher.matches();
+//    }
 
 
     public ResponseEntity<?> createUser(UserDTO userDTO) {
