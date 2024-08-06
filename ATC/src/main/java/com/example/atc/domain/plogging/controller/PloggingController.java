@@ -18,18 +18,32 @@ public class PloggingController {
     @Autowired
     private PloggingService ploggingService;
 
-    @Operation(summary = "플로깅 인증 내역 생성", description = "플로깅 인증 내역을 생성합니다.")
-    @PostMapping
+//    @Operation(summary = "플로깅 인증 내역 생성", description = "플로깅 인증 내역을 생성합니다.")
+//    @PostMapping
 
-    public ResponseEntity<?> createPlogging(@RequestPart(value = "request") PloggingDto dto, @RequestPart(value = "file") MultipartFile file) {
-        return ploggingService.createPlogging(dto, file);
-    }
+//    public Plogging createPost(@RequestBody Plogging plogging) {
+//            return ploggingService.createPlogging(plogging);
+//        }
+
+//    @Operation(summary = "플로깅 인증 내역 생성", description = "플로깅 인증 내역을 생성합니다.")
+//    @PostMapping
+//    public ResponseEntity<?> createPlogging(@RequestPart(value = "request") PloggingDto dto, @RequestPart(value = "file") MultipartFile file) {
+//        return ploggingService.createPlogging(dto, file);
+//    }
+
+
 
     @Operation(summary = "플로깅 내역 조회", description = "전체 플로깅 내역을 조회합니다.")
     @GetMapping
     public List<Plogging> getAllPloggings() {
         return ploggingService.retrieveAllPloggings();
 
+    }
+
+    @Operation(summary = "플로깅 사진 조회",description = "전체 플로깅 사진을 조회합니다.")
+    @GetMapping("/pic")
+    public List<PloggingPicture>getAllPloggingPicture(){
+        return ploggingService.retrieveAllPloggingPictures();
     }
 
     @Operation(summary = "게시물 수정", description = "게시물을 수정합니다.")
@@ -44,16 +58,17 @@ public class PloggingController {
         ploggingService.deletePlogging(recordId);
     }
 
-//    @Operation(summary = "플로깅 사진 업로드", description = "플로깅 사진을 업로드합니다.")
-//    @PostMapping("/upload")
-//    public PloggingPicture uploadFile(@RequestParam("image") MultipartFile file) {
-//        try {
-//            return ploggingService.savePicture(file);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            throw new RuntimeException("파일 업로드 중 오류가 발생했습니다.");
-//        }
-//    }
 
+
+    @Operation(summary = "플로깅 사진 업로드", description = "플로깅 사진을 업로드합니다.")
+    @PostMapping("/upload")
+    public PloggingPicture uploadFile(@RequestParam("file") MultipartFile file) {
+        try {
+            return ploggingService.savePicture(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("파일 업로드 중 오류가 발생했습니다.");
+        }
+    }
 }
 

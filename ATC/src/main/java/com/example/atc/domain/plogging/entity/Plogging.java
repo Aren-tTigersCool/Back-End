@@ -3,11 +3,11 @@ package com.example.atc.domain.plogging.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class Plogging {
 
@@ -34,7 +34,4 @@ public class Plogging {
                 this.ploggingPicture = ploggingPicture;
         }
 
-        public Plogging() {
-
-        }
 }
