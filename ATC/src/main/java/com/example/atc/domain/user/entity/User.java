@@ -2,6 +2,7 @@ package com.example.atc.domain.user.entity;
 
 import com.example.atc.domain.calorieRecord.entity.CalorieRecord;
 import com.example.atc.domain.co2Record.entity.Co2Record;
+import com.example.atc.domain.order.entity.Orders;
 import com.example.atc.domain.plogging.entity.PloggingPicture;
 import com.example.atc.domain.pointRecord.entity.PointRecord;
 import com.example.atc.domain.user.dto.UserDTO;
@@ -54,5 +55,8 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private ProfilePicture profilePicture;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Orders> orders;
 
 }
