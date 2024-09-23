@@ -11,10 +11,6 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Long> {
 
-    // 커스텀 쿼리
-    @Query("SELECT p.productName, p.productPictureUrl FROM Product p")
-    List<Product> findProductTitle();
-
     @Query("SELECT p.productBarcodeUrl FROM Product p WHERE p.productName = :productName")
     String findProductBarcode(@Param("productName") String productName);
 
