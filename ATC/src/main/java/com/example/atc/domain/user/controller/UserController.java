@@ -7,6 +7,7 @@ import com.example.atc.domain.user.dto.signUpDTO;
 import com.example.atc.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+
     @PostMapping("/check")
     public boolean checkIdAndPw(@RequestBody idDTO idDTO) {
         return userService.checkId(idDTO.getMemberId());
@@ -24,9 +26,9 @@ public class UserController {
     public ResponseEntity<?> signUp(@RequestBody signUpDTO signUpDTO) {
         if (!userService.checkId(signUpDTO.getMemberId())){
             userService.signUp(signUpDTO);
-            return ResponseEntity.ok("회원가입 성공");
+            return ResponseEntity.ok("joined");
         }
-        else return ResponseEntity.ok("회원가입 실패입니다.");
+        else return ResponseEntity.ok("failed.");
     }
     @PostMapping ("/login") //로그인
     public ResponseEntity<?> login(@RequestBody logInDTO logInDTO) {

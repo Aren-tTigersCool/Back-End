@@ -10,6 +10,7 @@ import com.example.atc.global.S3UploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +29,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final ProfilePictureRepository profilePictureRepository;
     private final S3UploadService s3UploadService;
-
-
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public ResponseEntity<?> login(logInDTO logInDTO) {
         String id = logInDTO.getMemberId();
@@ -38,21 +38,26 @@ public class UserService {
         System.out.println(id + pw);
 
         try {
-            // 사용자 id/password 일치하는지 확인
-            boolean existed = userRepository.existsByMemberIdAndUserPw(id, pw);
-            if(!existed) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("입력하신 정보가 존재하지 않습니다.");
-            } else {
-                Optional<User> userOptional = userRepository.findByMemberId(id);
-                if (userOptional.isPresent()) {
-                    User user = userOptional.get();
-                    return ResponseEntity.status(HttpStatus.OK).body(user);
-                } else {
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
-                }
+            // 사용자 id로 유저 정보 찾기
+            User userOptional = userRepository.findByMemberId(id);
+
+            // 사용자가 존재하는지 확인
+            if (userOptional!=null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Not Found");
             }
+
+            User user = userOptional;
+
+            // 입력된 비밀번호가 데이터베이스에 저장된 암호화된 비밀번호와 일치하는지 확인
+            if (!bCryptPasswordEncoder.matches(pw, user.getUserPw())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect Password");
+            }
+
+            // 로그인 성공 시 유저 정보 반환
+            return ResponseEntity.status(HttpStatus.OK).body(user);
+
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("데이터베이스 연결에 실패했습니다.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("DB Error");
         }
     }
 
@@ -66,11 +71,11 @@ public class UserService {
         String name = signUpDTO.getName();
         try {
             if (userRepository.existsByMemberId(memberId)) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 ID입니다.");
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Already Exist");
             }
 
             if (!isValidPassword(String.valueOf(password))) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호는 8자 이상, 대문자, 소문자, 숫자 및 특수문자를 포함해야 합니다.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("PW Error: 비밀번호는 8자 이상, 대문자, 소문자, 숫자 및 특수문자를 포함해야 합니다.");
             }
 
             else {
@@ -78,10 +83,10 @@ public class UserService {
                 UserDTO userDTO = new UserDTO();
                 userDTO.setMemberId(memberId);
                 userDTO.setNickname(name);
-                userDTO.setUserPw(password);
+                userDTO.setUserPw(bCryptPasswordEncoder.encode(password));
                 User user = new User();
                 user.setMemberId(memberId);
-                user.setUserPw(password);
+                user.setUserPw(bCryptPasswordEncoder.encode(password));
                 user.setCategoryId(null);
                 user.setNickName(name);
                 user.setHeight(null);
@@ -89,8 +94,11 @@ public class UserService {
 //                user.setCalSum(null);
 //                user.setCarSum(null);
                 user.setTotalPoint(0);
+
                 user.setTotalCo2(0.0);
                 user.setTotalCalorie(0.0);
+
+                user.setRole("ROLE_ADMIN");
 
                 User savedUser = userRepository.save(user);
 
@@ -136,9 +144,9 @@ public class UserService {
     }
 
     public ResponseEntity<?> getUserByMemberId(String memberId){
-        Optional<User> user = userRepository.findByMemberId(memberId);
-        if (user.isPresent())
-            return ResponseEntity.status(HttpStatus.OK).body(user.get());
+        User user = userRepository.findByMemberId(memberId);
+        if (user!=null)
+            return ResponseEntity.status(HttpStatus.OK).body(user);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found with id " + memberId);
     }
 
