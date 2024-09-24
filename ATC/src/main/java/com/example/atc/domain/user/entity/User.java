@@ -40,6 +40,8 @@ public class User {
     private Double totalCo2;
     private Double totalCalorie;
 
+    private String role;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<PointRecord> pointRecords = new LinkedList<>();
