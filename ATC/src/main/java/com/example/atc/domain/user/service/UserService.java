@@ -31,96 +31,9 @@ public class UserService {
     private final S3UploadService s3UploadService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public ResponseEntity<?> login(logInDTO logInDTO) {
-        String id = logInDTO.getMemberId();
-        String pw = logInDTO.getPassword();
-
-        System.out.println(id + pw);
-
-        try {
-            // 사용자 id로 유저 정보 찾기
-            User userOptional = userRepository.findByMemberId(id);
-
-            // 사용자가 존재하는지 확인
-            if (userOptional!=null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Not Found");
-            }
-
-            User user = userOptional;
-
-            // 입력된 비밀번호가 데이터베이스에 저장된 암호화된 비밀번호와 일치하는지 확인
-            if (!bCryptPasswordEncoder.matches(pw, user.getUserPw())) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect Password");
-            }
-
-            // 로그인 성공 시 유저 정보 반환
-            return ResponseEntity.status(HttpStatus.OK).body(user);
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("DB Error");
-        }
-    }
-
     public boolean checkId(String memberId) {
         return userRepository.existsByMemberId(memberId);
     }
-
-    public ResponseEntity<?> signUp(signUpDTO signUpDTO) {
-        String memberId = signUpDTO.getMemberId();
-        String password = signUpDTO.getPassword();
-        String name = signUpDTO.getName();
-        try {
-            if (userRepository.existsByMemberId(memberId)) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("Already Exist");
-            }
-
-            if (!isValidPassword(String.valueOf(password))) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("PW Error: 비밀번호는 8자 이상, 대문자, 소문자, 숫자 및 특수문자를 포함해야 합니다.");
-            }
-
-            else {
-
-                UserDTO userDTO = new UserDTO();
-                userDTO.setMemberId(memberId);
-                userDTO.setNickname(name);
-                userDTO.setUserPw(bCryptPasswordEncoder.encode(password));
-                User user = new User();
-                user.setMemberId(memberId);
-                user.setUserPw(bCryptPasswordEncoder.encode(password));
-                user.setCategoryId(null);
-                user.setNickName(name);
-                user.setHeight(null);
-                user.setWeight(null);
-//                user.setCalSum(null);
-//                user.setCarSum(null);
-                user.setTotalPoint(0);
-
-                user.setTotalCo2(0.0);
-                user.setTotalCalorie(0.0);
-
-                user.setRole("ROLE_ADMIN");
-
-                User savedUser = userRepository.save(user);
-
-                return ResponseEntity.status(HttpStatus.OK).body(savedUser);
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("알 수 없는 오류가 발생했습니다.");
-        }
-    }
-
-    // 비밀번호 검증
-    private boolean isValidPassword(String password) {
-        if (password == null) {
-            return false;
-        }
-        // 정규표현식 패턴: 8자 이상, 대문자, 소문자, 숫자, 특수문자 포함
-        String passwordPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
-        Pattern pattern = Pattern.compile(passwordPattern);
-        Matcher matcher = pattern.matcher(password);
-        return matcher.matches();
-    }
-
 
     public ResponseEntity<?> createUser(UserDTO userDTO) {
         try {
@@ -192,3 +105,18 @@ public class UserService {
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 }
+
+
+
+// 비밀번호 검증
+//    private boolean isValidPassword(String password) {
+//        if (password == null) {
+//            return false;
+//        }
+//        // 정규표현식 패턴: 8자 이상, 대문자, 소문자, 숫자, 특수문자 포함
+//        String passwordPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+//        Pattern pattern = Pattern.compile(passwordPattern);
+//        Matcher matcher = pattern.matcher(password);
+//        return matcher.matches();
+//    }
+

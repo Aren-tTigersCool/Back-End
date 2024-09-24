@@ -22,18 +22,6 @@ public class UserController {
         return userService.checkId(idDTO.getMemberId());
     }
 
-    @PostMapping("/signUp")
-    public ResponseEntity<?> signUp(@RequestBody signUpDTO signUpDTO) {
-        if (!userService.checkId(signUpDTO.getMemberId())){
-            userService.signUp(signUpDTO);
-            return ResponseEntity.ok("joined");
-        }
-        else return ResponseEntity.ok("failed.");
-    }
-    @PostMapping ("/login") //로그인
-    public ResponseEntity<?> login(@RequestBody logInDTO logInDTO) {
-        return userService.login(logInDTO);
-    }
     @PostMapping
     public ResponseEntity<?> createUser(@RequestPart UserDTO userDTO) {
         return userService.createUser(userDTO);

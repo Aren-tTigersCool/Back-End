@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @ResponseBody
+//admin 권한 부여 테스트
 public class AdminController {
     @GetMapping("/admin")
     public String adminP() {
