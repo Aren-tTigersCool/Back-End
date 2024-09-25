@@ -92,9 +92,9 @@ public class SecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login", "/", "/join").permitAll()
+                        .requestMatchers("/login", "/", "/join", "api/calorie-records/**", "api/co2-records/**","api/favorites/**", "api/plogging/**", "api/point-records/**").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
-                        .requestMatchers("/api/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/users").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated());
 
 
