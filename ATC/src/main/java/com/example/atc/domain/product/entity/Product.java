@@ -20,4 +20,5 @@ public class Product {
     private String productBarcodeUrl;
     private String category;
     private int productPrice;
+
 }

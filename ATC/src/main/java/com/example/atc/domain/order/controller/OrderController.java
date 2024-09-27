@@ -1,9 +1,9 @@
 package com.example.atc.domain.order.controller;
 
-import com.example.atc.domain.order.dto.OrderRequestDto;
 import com.example.atc.domain.order.entity.Orders;
 import com.example.atc.domain.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.example.atc.domain.order.dto.OrderRequestDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +20,12 @@ public class OrderController {
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
+
+    @GetMapping("/orders/user")
+    public List<Orders> findAllOrdersByUser(@RequestParam Long userId) {
+        return orderService.findAllOrdersByUser(userId);
+    }
+
 
     @PostMapping
     public ResponseEntity<Orders> createOrder(@RequestBody OrderRequestDto orderRequest) {

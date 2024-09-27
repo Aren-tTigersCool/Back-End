@@ -53,4 +53,9 @@ public class OrderService {
     public List<Orders> findAllOrders(){
         return orderRepository.findAll();
     }
+
+    public List<Orders> findAllOrdersByUser(Long userId) {
+        return orderRepository.findAllOrdersByUserId(userId);
+    }
+
 }
