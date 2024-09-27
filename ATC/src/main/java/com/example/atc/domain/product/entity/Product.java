@@ -19,7 +19,4 @@ public class Product {
     private String productPictureUrl;
     private String productBarcodeUrl;
     private int productPrice;
-
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Orders orders;
 }
