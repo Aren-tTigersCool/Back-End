@@ -50,7 +50,7 @@ public class Co2RecordController {
         // 계산식
         double kcal = 3.5 * 70 * distance / 5;
         double co2Kg = distance / 11.06 * 1.868;
-        double trees = 0.2335 * distance;
+        double trees = 0.02335 * distance;
 
         // 결과를 Map에 담아 반환
         Map<String, Double> result = new HashMap<>();
