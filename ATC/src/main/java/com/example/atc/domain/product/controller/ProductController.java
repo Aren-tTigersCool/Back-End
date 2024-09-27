@@ -41,5 +41,4 @@ public class ProductController {
         // 컨트롤러에서는 데이터를 받아 서비스로 전달
         return productService.createProduct(productDto, productPicture, productBarcode);
     }
-
 }
