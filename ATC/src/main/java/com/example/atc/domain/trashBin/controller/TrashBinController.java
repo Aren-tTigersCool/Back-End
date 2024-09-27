@@ -66,7 +66,7 @@ public class TrashBinController {
     }
 
     // 범위 내 쓰레기통 데이터를 조회
-    @GetMapping("/findBetween")
+    @PostMapping("/findBetween")
     public ResponseEntity<List<TrashBin>> findTrashBinsBetween(
             @RequestParam double startLatitude,
             @RequestParam double startLongitude,
