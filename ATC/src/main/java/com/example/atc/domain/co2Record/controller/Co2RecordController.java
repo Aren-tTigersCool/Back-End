@@ -45,7 +45,7 @@ public class Co2RecordController {
         return co2RecordService.deleteCo2Record(id);
     }
 
-    @GetMapping("/calculate")
+    @PostMapping("/calculate")
     public ResponseEntity<Map<String, Double>> calculateDistance(@RequestParam double distance) {
         // 계산식
         double kcal = 3.5 * 70 * distance / 5;
