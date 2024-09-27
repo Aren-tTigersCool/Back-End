@@ -31,7 +31,6 @@ public class CustomUserDetailsService implements UserDetailsService {
             System.out.println("user is not null");
             //UserDetails에 담아서 return하면 AutneticationManager가 검증 함
             return new CustomUserDetails(userData);
-
         }
 
         return null;
