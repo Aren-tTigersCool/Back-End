@@ -24,10 +24,9 @@ public class ProductController {
     }
 
     @Operation(summary = "상품 바코드 조회", description = "해당 상품의 바코드를 조회합니다.")
-    @GetMapping("/barcode")
+    @PostMapping("/barcode")
     public String getProductBarcode(@RequestParam String productName) {
         String barcodeUrl = productService.findProductBarcode(productName);
-
         productService.decreaseProductQuantity(productName);
         return barcodeUrl;
     }

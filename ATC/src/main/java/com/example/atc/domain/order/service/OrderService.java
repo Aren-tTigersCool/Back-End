@@ -1,5 +1,6 @@
 package com.example.atc.domain.order.service;
 
+import com.example.atc.domain.order.dto.OrderDto;
 import com.example.atc.domain.order.entity.Orders;
 import com.example.atc.domain.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +18,8 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+    public List<Orders> findAllOrdersByUser(Long userId) {
+        return orderRepository.findAllOrdersByUserId(userId);
+    }
 
 }

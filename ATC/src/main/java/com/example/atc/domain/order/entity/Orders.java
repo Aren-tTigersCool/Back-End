@@ -19,7 +19,7 @@ public class Orders {
     private Long price;
     private LocalDateTime order_date;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "productId", nullable = false)
     private Product product;
 
