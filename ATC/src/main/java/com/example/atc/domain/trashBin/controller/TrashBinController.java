@@ -5,8 +5,11 @@ import com.example.atc.domain.trashBin.entity.TrashBin;
 import com.example.atc.domain.trashBin.service.TrashBinService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 @RestController
@@ -20,6 +23,7 @@ public class TrashBinController {
     }
 
     // CSV 파일의 경로를 받아서 쓰레기통 데이터를 DB에 저장
+    /*
     @PostMapping("/loadFromCsv")
     public ResponseEntity<String> loadTrashBinsFromCsv(@RequestParam("filePath") String filePath) {
         try {
@@ -29,6 +33,26 @@ public class TrashBinController {
             return ResponseEntity.status(500).body("파일 처리 중 오류 발생: " + e.getMessage());
         }
     }
+     */
+    @PostMapping("/loadFromCsv")
+    public ResponseEntity<String> loadTrashBinsFromCsv(@RequestParam("file") MultipartFile file) {
+        try {
+            // 파일을 임시 경로에 저장
+            Path tempFile = Files.createTempFile("uploaded_", ".csv");
+            file.transferTo(tempFile.toFile());
+
+            // 임시 파일 경로로 서비스 호출
+            trashBinService.saveTrashBinsFromCsv(tempFile.toString());
+
+            // 처리 후 임시 파일 삭제
+            Files.delete(tempFile);
+
+            return ResponseEntity.ok("CSV 파일로부터 쓰레기통 데이터가 성공적으로 저장되었습니다.");
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body("파일 처리 중 오류 발생: " + e.getMessage());
+        }
+    }
+
 
     @PostMapping
     public ResponseEntity<TrashBin> createTrashBin(@RequestBody TrashBinDto trashBinDTO) {
