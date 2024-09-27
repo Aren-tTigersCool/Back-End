@@ -12,5 +12,4 @@ public class AtcApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AtcApplication.class, args);
 	}
-
 }

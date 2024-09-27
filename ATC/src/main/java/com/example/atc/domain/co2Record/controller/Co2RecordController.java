@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,5 +44,22 @@ public class Co2RecordController {
     public ResponseEntity<?> deleteCo2Record(@PathVariable Long id) {
         return co2RecordService.deleteCo2Record(id);
     }
+
+    @GetMapping("/calculate")
+    public ResponseEntity<Map<String, Double>> calculateDistance(@RequestParam double distance) {
+        // 계산식
+        double kcal = 3.5 * 70 * distance / 5;
+        double co2Kg = distance / 11.06 * 1.868;
+        double trees = 0.2335 * distance;
+
+        // 결과를 Map에 담아 반환
+        Map<String, Double> result = new HashMap<>();
+        result.put("kcal", kcal);
+        result.put("co2Kg", co2Kg);
+        result.put("trees", trees);
+
+        return ResponseEntity.ok(result);
+    }
+
 }
 
