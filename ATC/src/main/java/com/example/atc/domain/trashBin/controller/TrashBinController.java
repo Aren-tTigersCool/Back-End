@@ -73,7 +73,11 @@ public class TrashBinController {
             @RequestParam double endLatitude,
             @RequestParam double endLongitude) {
 
+        System.out.println("startLatitude: " + startLatitude + ", startLongitude: " + startLongitude);
+        System.out.println("endLatitude: " + endLatitude + ", endLongitude: " + endLongitude);
+
         List<TrashBin> bins = trashBinService.findTrashBinsWithinRange(startLatitude, startLongitude, endLatitude, endLongitude);
         return ResponseEntity.ok(bins);
+
     }
 }
