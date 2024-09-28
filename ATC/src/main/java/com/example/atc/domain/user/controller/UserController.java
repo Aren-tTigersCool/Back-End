@@ -1,12 +1,10 @@
 package com.example.atc.domain.user.controller;
 
-import com.example.atc.domain.user.dto.UserDTO;
-import com.example.atc.domain.user.dto.idDTO;
-import com.example.atc.domain.user.dto.logInDTO;
-import com.example.atc.domain.user.dto.signUpDTO;
+import com.example.atc.domain.user.dto.*;
 import com.example.atc.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,4 +50,13 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         return userService.deleteUser(id);
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getMyPage(Authentication authentication) {
+        // 인증된 사용자의 정보를 가져옴
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        return userService.getUserByMemberId(userDetails.getUsername());
+    }
+
 }
